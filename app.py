@@ -63,7 +63,7 @@ def check_coin(symbol):
     except:
         return "ERROR", False, False, 0
 
-if st.button("🔍 SCAN NOW", use_container_width=True):
+if st.button("🔍 SCAN NOW", use_container_width=True) or auto_scan:
     for coin in ["BTC-USD", "ETH-USD", "SOL-USD"]:
         trend, sweep, bos, price = check_coin(coin)
         name = coin.replace("-USD","")

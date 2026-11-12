@@ -74,6 +74,7 @@ if st.button("🔍 SCAN NOW", use_container_width=True):
             st.write(f"**BOS (15m):** {'✅ YES' if bos else '❌ NO'}")
             if sweep and bos:
                 st.success(f"🟢 TAKE {trend} TRADE - All rules met!")
+                send_telegram(f"🚨 VOI SIGNAL!\n{name} - {trend}\nPrice: {price:.2f}\nSweep + BOS confirmed - Check Scanner!")
             else:
                 st.error(f"🔴 NO TRADE - Stay out")
 

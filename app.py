@@ -4,8 +4,19 @@ import yfinance as yf
 from datetime import datetime
 import pytz
 import time
+import requests
 st.set_page_config(page_title="My Scanner", page_icon="📈", layout="centered")
+def send_telegram(message):
+    try:
+        token = st.secrets["TELEGRAM_BOT_TOKEN"]
+        chat_id = st.secrets["TELEGRAM_CHAT_ID"]
+        url = f"https://api.telegram.org/bot{token}/sendMessage"
+        requests.post(url, data={"chat_id": chat_id, "text": message}, timeout=10)
+    except Exception as e:
+        st.warning(f"Telegram failed: {e}")
 
+if st.button("Test Telegram"):
+    send_telegram("✅ Test from your VOI scanner - Telegram is working!")
 st.title("📈 My Scanner v2")
 st.write("BTC • ETH • SOL | London & NY Sessions")
 auto_scan = st.toggle("🔄 Auto-scan every 5 min", value=True)

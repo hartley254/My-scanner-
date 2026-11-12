@@ -62,7 +62,8 @@ def check_coin(symbol):
         return trend, sweep, bos, price
     except:
         return "ERROR", False, False, 0
-
+if "sent_signals" not in st.session_state:
+    st.session_state.sent_signals = set()
 if st.button("🔍 SCAN NOW", use_container_width=True) or auto_scan:
     for coin in ["BTC-USD", "ETH-USD", "SOL-USD"]:
         trend, sweep, bos, price = check_coin(coin)
@@ -74,10 +75,13 @@ if st.button("🔍 SCAN NOW", use_container_width=True) or auto_scan:
             st.write(f"**BOS (15m):** {'✅ YES' if bos else '❌ NO'}")
             if sweep and bos:
                 st.success(f"🟢 TAKE {trend} TRADE - All rules met!")
+                signal_key = f"{name}-{trend}"
+            if signal_key not in st.session_state.sent_signals:
+                st.session_state.sent_signals.add(signal_key)
                 send_telegram(f"🚨 VOI SIGNAL!\n{name} - {trend}\nPrice: {price:.2f}\nSweep + BOS confirmed - Check Scanner!")
             else:
                 st.error(f"🔴 NO TRADE - Stay out")
-
+                st.session_state.sent_signals.discard(f"{name}-{trend}")
     st.info("Journal Tip: Screenshot this result and save it. After 1 week you'll see your win rate.")
 
 st.divider()

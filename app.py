@@ -3,12 +3,12 @@ import streamlit as st
 import yfinance as yf
 from datetime import datetime
 import pytz
-
+import time
 st.set_page_config(page_title="My Scanner", page_icon="📈", layout="centered")
 
 st.title("📈 My Scanner v2")
 st.write("BTC • ETH • SOL | London & NY Sessions")
-
+auto_scan = st.toggle("🔄 Auto-scan every 5 min", value=True)
 nairobi = pytz.timezone('Africa/Nairobi')
 now = datetime.now(nairobi)
 hour = now.hour
@@ -70,3 +70,6 @@ if st.button("🔍 SCAN NOW", use_container_width=True):
 
 st.divider()
 st.caption("Rules: 4H Trend (EMA50) + 1H Sweep + 15m BOS. Only trade in London/NY sessions.")
+if auto_scan:
+    time.sleep(300)
+    st.rerun()

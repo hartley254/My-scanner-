@@ -76,9 +76,9 @@ if st.button("🔍 SCAN NOW", use_container_width=True) or auto_scan:
             if sweep and bos:
                 st.success(f"🟢 TAKE {trend} TRADE - All rules met!")
                 signal_key = f"{name}-{trend}"
-            if signal_key not in st.session_state.sent_signals:
-                st.session_state.sent_signals.add(signal_key)
-                send_telegram(f"🚨 VOI SIGNAL!\n{name} - {trend}\nPrice: {price:.2f}\nSweep + BOS confirmed - Check Scanner!")
+                if signal_key not in st.session_state.sent_signals:
+                    st.session_state.sent_signals.add(signal_key)
+                    send_telegram(f"🚨 VOI SIGNAL!\n{name} - {trend}\nPrice: {price:.2f}\nSweep + BOS confirmed - Check Scanner!")
             else:
                 st.error(f"🔴 NO TRADE - Stay out")
                 st.session_state.sent_signals.discard(f"{name}-{trend}")
